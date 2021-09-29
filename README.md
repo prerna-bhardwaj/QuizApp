@@ -18,11 +18,14 @@ A Quiz App made using Django Rest Framework
 ## Errors : 
 
 1. Invalid base64-encoded string: number of data characters (217) cannot be 1 more than a multiple of 4
-Solution : Clear your Browser cache and cookies. Delete all old sessions from the DJANGO_SESSION table.
+ - Solution : Clear your Browser cache and cookies. Delete all old sessions from the DJANGO_SESSION table.
 
 2. serializer call is showing an TypeError: Object of type 'ListSerializer' is not JSON serializable
-Solution : The problem is that you're sending the serializer itself, rather than the serialized data, to the response. You should change it to:
+ - Solution : The problem is that you're sending the serializer itself, rather than the serialized data, to the response. You should change it to:
     self.data = objects.data
+
+3. Django TypeError: argument of type 'PosixPath' is not iterable
+ - Solution : A database setting is specified as a Path object. Convert it to str().
 
 
 ## NOTES :
