@@ -14,5 +14,5 @@ urlpatterns = [
     # Get data of all Categories
     path('category', CategoriesData.as_view(), name='categories'),
     # Get all the data for a particular Category
-    path('category/<str:category_name>/', CategoryData.as_view(), name='category'),
+    path('category/<int:pk>/', CategoryData.as_view(), name='category'),
 ]

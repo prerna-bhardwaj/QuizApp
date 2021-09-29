@@ -39,7 +39,7 @@ class QuizDetailsSerializer(serializers.ModelSerializer):
 
 
 class CategorySerializer(serializers.ModelSerializer):
-    quizzes_set = QuizDetailsSerializer(many=True)
+    quizzes_set = QuizDetailsSerializer(many=True, read_only=True)
 
     class Meta:
         model = Category
