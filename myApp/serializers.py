@@ -1,9 +1,31 @@
-from rest_framework import serializers
+from rest_framework import fields, serializers
 from rest_framework.relations import StringRelatedField
 from .models import *
+from django.contrib.auth.models import User
+from rest_framework.authtoken.views import Token
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id', 'username', 'password']
+
+        extra_kwargs = {
+            'password' : {
+                'write_only': True,
+                'required': True,
+            }
+        }
+    
+    def create(self, validated_data):
+        # Explicitly create the user so that the password is hashed.
+        user =  User.objects.create_user(**validated_data)
+        # Create a token so the user so registered.
+        Token.objects.create(user=user)
+        return user
 
 
 class QuizSerializer(serializers.ModelSerializer):
+    category = StringRelatedField()
     class Meta:
         model = Quizzes
         fields = ['title', 'category']

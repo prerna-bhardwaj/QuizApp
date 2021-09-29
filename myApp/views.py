@@ -1,19 +1,58 @@
 import re
 from rest_framework import status
 from rest_framework.response import Response
-from rest_framework.status import HTTP_201_CREATED, HTTP_404_NOT_FOUND
 from rest_framework.views import APIView
 from .serializers import *
 from .models import *
 from rest_framework.response import Response
-from rest_framework import generics, serializers
+from rest_framework import generics
 from rest_framework.views import APIView
+from rest_framework import mixins
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.authentication import TokenAuthentication
+from django.contrib.auth.models import User
 
+
+class UserDetails(generics.GenericAPIView, mixins.ListModelMixin, mixins.CreateModelMixin):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+    def get(self, request):
+        return self.list(request)
+
+    def post(self, request):
+        return self.create(request)
+    
 
 # All quizzes
-class Quiz(generics.ListAPIView):
+class QuizList(generics.GenericAPIView, mixins.ListModelMixin, mixins.CreateModelMixin):
     serializer_class = QuizSerializer
     queryset = Quizzes.objects.all()
+    permission_classes = [IsAuthenticated, ]
+    authentication_classes = (TokenAuthentication, )
+
+
+    def get(self, request):
+        return self.list(request)
+
+    def post(self, request):
+        return self.create(request)
+
+
+class QuizDetails(generics.GenericAPIView, mixins.RetrieveModelMixin, mixins.UpdateModelMixin, mixins.DestroyModelMixin):
+    queryset = Quizzes.objects.all()
+    serializer_class = QuizSerializer
+
+    lookup_field = 'id'
+
+    def get(self, request, id):
+        return self.retrieve(request, id=id)
+
+    def put(self, request, id):
+        return self.update(request, id=id)
+
+    def delete(self, request, id):
+        return self.destroy(request, id=id)
 
 
 # Create / View a Random Question
@@ -34,7 +73,7 @@ class AllQuestions(APIView):
 
 
 # Specific Category data - All quizzes
-class CategoryData(APIView):
+class CategoryDetails(APIView):
 
     def get_object(self, id):
         try:
@@ -72,7 +111,7 @@ class CategoryData(APIView):
 
 
 # All Categories
-class CategoriesData(APIView):
+class CategoryList(APIView):
     def get(self, request, format=None, **kwargs):
         categories = Category.objects.all()
         serializer = CategorySerializer(categories, many=True)
