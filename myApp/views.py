@@ -13,15 +13,10 @@ from rest_framework.authentication import TokenAuthentication
 from django.contrib.auth.models import User
 
 
-class UserDetails(generics.GenericAPIView, mixins.ListModelMixin, mixins.CreateModelMixin):
+# Register a new user
+class UserDetails(generics.ListCreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-
-    def get(self, request):
-        return self.list(request)
-
-    def post(self, request):
-        return self.create(request)
     
 
 # All quizzes

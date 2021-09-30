@@ -48,10 +48,12 @@ class OptionSerializer(serializers.ModelSerializer):
 class AllQuestionsSerializer(serializers.ModelSerializer):
     options = OptionSerializer(many=True, read_only=True)
     quiz = QuizSerializer(read_only=True)
+    difficulty = serializers.CharField(source='get_difficulty_display')
+
     class Meta:
         model = Question
         fields = ['quiz', 'title', 'difficulty', 'options']
-
+    
 
 class QuizDetailsSerializer(serializers.ModelSerializer):
     questions = AllQuestionsSerializer(many=True)

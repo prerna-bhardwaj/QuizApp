@@ -6,6 +6,8 @@ A Quiz App made using Django Rest Framework
 - Use function-based views + @api_view decorator
 - Use class-based views + extending the APIView class
 - Using generics and mixin classes
+    * GenericAPIView + Mixin Classes(List, Create, Retrieve, Update, Destroy) + Overriding the get(), post(), put(), delete()
+    * ListCreateAPIView and RetrieveUpdateDestroyAPIView + no need to override functions
 
 ## When viewing a list :
 - **GET** - View all objects
@@ -30,4 +32,12 @@ A Quiz App made using Django Rest Framework
 
 
 ## Notes :
-- Django, by defaults gives you a default related_name which is the ModelName (in lowercase) followed by “_set”.    e.g. : Article -> article_set.
+* Django, by defaults gives you a default related_name which is the ModelName (in lowercase) followed by “_set”.    e.g. : Article -> article_set.
+
+* Django provides the Model.get_FOO_display() method to get the "human-readable" value of a field.
+    * e.g.: difficulty = serializers.CharField(source='get_difficulty_display')
+    * class ExampleSerializer(self):
+        extra_info = SerializerMethodField()
+
+        def get_extra_info(self, obj):
+            return obj.get_extra_info_display()

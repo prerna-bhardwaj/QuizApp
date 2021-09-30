@@ -48,7 +48,7 @@ class Question(UpdatedOn):
 
     title = models.CharField(max_length=255, verbose_name=_('Question Text'))
     quiz = models.ForeignKey(Quizzes, related_name='questions', on_delete=models.DO_NOTHING)
-    difficulty = models.IntegerField(choices=SCALE, default=0, verbose_name=_('Difficulty Level'))
+    difficulty = models.IntegerField(choices=SCALE, verbose_name=_('Difficulty Level'))
     date_created = models.DateTimeField(auto_now_add=True, verbose_name=_('Date Created'))
     is_active = models.BooleanField(default=False, verbose_name=_('Active Status'))
 
