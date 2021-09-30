@@ -36,8 +36,8 @@ A Quiz App made using Django Rest Framework
 
 * Django provides the Model.get_FOO_display() method to get the "human-readable" value of a field.
     * e.g.: difficulty = serializers.CharField(source='get_difficulty_display')
-    * class ExampleSerializer(self):
+    * class ExampleSerializer(self):\n
         extra_info = SerializerMethodField()
 
-        def get_extra_info(self, obj):
+        def get_extra_info(self, obj):\n
             return obj.get_extra_info_display()
